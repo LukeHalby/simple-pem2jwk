@@ -2,8 +2,6 @@ import * as asn from 'asn1js'
 import { Base64 } from 'js-base64'
 import { Buffer } from 'buffer'
 
-const RSA_OID = '1.2.840.113549.1.1.1';
-
 function str2ab(str) {
   const buf = new ArrayBuffer(str.length)
   const bufView = new Uint8Array(buf)
@@ -24,7 +22,6 @@ const addOptions = (jwk, opts) => {
 
 const pem2jwk = (pem, opts) => {
   let kind = undefined
-  let standard = undefined
   // fetch the part of the PEM string between header and footer
   const lines = pem
     .trim()
@@ -34,16 +31,8 @@ const pem2jwk = (pem, opts) => {
 
   if (pemHeader === '-----BEGIN RSA PRIVATE KEY-----' && pemFooter === '-----END RSA PRIVATE KEY-----') {
     kind = 'private'
-    standard = 'PKCS#1';
   } else if (pemHeader === '-----BEGIN RSA PUBLIC KEY-----' && pemFooter === '-----END RSA PUBLIC KEY-----') {
     kind = 'public'
-    standard = 'PKCS#1';
-  } else if (pemHeader === '-----BEGIN PRIVATE KEY-----' && pemFooter === '-----END PRIVATE KEY-----') {
-    kind = 'private';
-    standard = 'PKCS#8';
-  } else if (pemHeader === '-----BEGIN PUBLIC KEY-----' && pemFooter === '-----END PUBLIC KEY-----') {
-    kind = 'public';
-    standard = 'PKCS#8';
   } else {
     throw Error(`Headers not supported: ${pemHeader}\n ${pemFooter}`)
   }
@@ -62,26 +51,9 @@ const pem2jwk = (pem, opts) => {
     public: [ 'n', 'e' ]
   }
 
-  let fieldValues = undefined;
-  switch (standard) {
-    case 'PKCS#1':
-      fieldValues = kind === 'private'
-        ? sequence.result.valueBlock.value.slice(1)
-        : sequence.result.valueBlock.value;
-      break;
-    case 'PKCS#8':
-      // ensure RSA
-      const oidValues = kind === 'private'
-        ? sequence.result.valueBlock.value[1].valueBlock.value[0].valueBlock.value
-        : sequence.result.valueBlock.value[0].valueBlock.value[0].valueBlock.value;
-      const oid = oidValues.map(x => x.toString()).join('.');
-      if (oid !== RSA_OID) throw Error(`OID not supported: ${oid}`);
-
-      fieldValues = kind === 'private'
-        ? sequence.result.valueBlock.value[2].valueBlock.value[0].valueBlock.value.slice(1)
-        : sequence.result.valueBlock.value[1].valueBlock.value[0].valueBlock.value;
-      break;
-  }
+  const fieldValues = kind === 'private'
+    ? sequence.result.valueBlock.value.slice(1)
+    : sequence.result.valueBlock.value
 
   const fields = fieldValues
     .map(x => x.valueBlock.valueHex)

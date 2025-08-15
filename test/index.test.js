@@ -1,6 +1,6 @@
-import pem2jwk from '../src/index.js'
+import pem2jwk from '../src/index'
 
-const pkcs1KeyPairs = [
+const keyPairs = [
   {
     privateKey: {
       pem: `-----BEGIN RSA PRIVATE KEY-----
@@ -156,159 +156,39 @@ UV/ibBbkN0EOXIy1wW7q+QpE9LYxRtpYcfG6PsRAGrJI/mkCiZm/AgMBAAE=
         n: 'xCTWXGPVAD4ac0o4yV5qPkwEetXRh_a80SPBYVUZcR1hzflPXUY3eDC9ny9PRuUIZHSgjQtCxlxE09c-LODXaGysMitL2WP9lrs4Al6laeyXVQ49uYnF94tRX-JsFuQ3QQ5cjLXBbur5CkT0tjFG2lhx8bo-xEAaskj-aQKJmb8'
       }
     }
-  },
-]
-
-const pkcs8KeyPairs = [
-  // 2048 bit
-  {
-    privateKey: {
-      pem: `-----BEGIN PRIVATE KEY-----
-MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDW6grubDBXAEsA
-YK+6FzTuFL3IdSOadxrSjf1jrUiUYbUWTrXJkmkaacd2rDAciRAVPS36PcM20tGA
-zSWlzpUdAlB5fdVxViDct1+L148CPHOiqNhRzEjpTpn2Gdy2jCmrSLpAR8EdEXdD
-kXkKTraHEc4Ar8DvSGehZIcZ4q6Q7kuvFlAuPVYe6a4Pv2eU08ZMyT2nDSH2xJtU
-D8Mt2eVeaUnGrqO7qbzKnGvyFH4wEMnbrm0HF3lkMXDPqObkfQGMe2EkXyoUcUYL
-njMl2oaeTszmMhrfM49jZrnLS3vd7P+1VvL8s630t3wOtieHxdQwitz6xL7yAsvG
-oV8Kc/rxAgMBAAECggEBAJWWceViCIOGAK5Snf25CW5toWtVnWJ2ZIUJr8UhZ9Nf
-7tuIDaAv+FgaKGvBjftOq5Mc8lOriaUvOAOexwWRtNhsM/dcTqSEfnsiZ66+axvz
-V8lwHKFSv60kuKVDewzUomxGQt1bFF9XONwe9VDnWMTK78gqjPAARaFgh2jNDxRw
-geTLR+32YNsM1kq98Cf9jFVaK+RZS7S0Sm6Z4AdC7Le4r9QzdPX9wWP9RzlTH7mi
-1+HKljANXzNJyzk8r7++UuihS4MqBrMy3Mr1HJ4+NJ9PzRwOSmxYmEFFTiShOg2p
-PRHIXlq7MaEKL8JQS9e2k3xUXrHtq+cis8Mg4G/5fAECgYEA9xwDAypNpQ42U0+u
-4VRiiivnl0mpEU8oUWirBxOCieF9GtTcPx25vCUOU/hIVoxY6IJHhKB7qVRhjHqo
-qTVh/sv7t49EsN27XPNAjKBNb9uI8SuZ+otbbymkAdfEGmDR5Ik3fUx4geue+x7D
-+CTOSCl8haMFG1B6E4isw8jWkukCgYEA3qV/sw7mihZH3VtLAiID7rXmwtZnHiKJ
-ht9tRdbM38h/fczmAZyqSBy3yNS+opWbOk7h4ShcsUJQqdwYWEhkoEy7WgAyCKD4
-znBaMiGM+6hCVOIKCYzYjIzsNMwz+G/jSNCu28QFlgMxXzHalHLYxmByIRKJ3YVB
-z9MqX1wMUskCgYEAgLb1lrt9UEFz6Ldz12lWHrS54GL9DsgVrzn/BCOUdm+e88/2
-nWXFbow6x2BnhbV7Rjk+OYZCg7QxT7RAkEr/LXJhPn8A/8Ovqb4HXHjPfTl0PnNA
-tHHMgb3F8TPLsRXHnuwenESt7LanzBR9bY72aD4733xH1692tyAVJbJCmqkCgYA6
-YAwWR37cj7Dx8cC942tCiEDjrtFEjmueiDAfUo1O00PSGQnpPElNNPJe3qDJAg67
-//irTyjWdPuvPXzIkNqJSPUKSOjVaFcz0TNk13UeemRB2y4kiOAyIbTAtxWdOsDN
-06E1D7UjOt0UB3820tHRWXIzB6hMA2dY9RW0AO9eOQKBgQCck1WEW7KwyH++50KB
-tcgX7VwobM6N1mA1OZ2s6lUrr0N/CQysrOq0Run15DTx0MBG6zsSQ8xjcoFQl/7X
-bgtWPG+Wm5qe6nLF3lssesCzEjp40waxZDrcIQtlQAAXOYKnejJu4crR/wWHuBgG
-Bzggm5yfYhl9CHkYThGCITVMxw==
------END PRIVATE KEY-----`,
-      jwk: {
-        "p": "9xwDAypNpQ42U0-u4VRiiivnl0mpEU8oUWirBxOCieF9GtTcPx25vCUOU_hIVoxY6IJHhKB7qVRhjHqoqTVh_sv7t49EsN27XPNAjKBNb9uI8SuZ-otbbymkAdfEGmDR5Ik3fUx4geue-x7D-CTOSCl8haMFG1B6E4isw8jWkuk",
-        "kty": "RSA",
-        "q": "3qV_sw7mihZH3VtLAiID7rXmwtZnHiKJht9tRdbM38h_fczmAZyqSBy3yNS-opWbOk7h4ShcsUJQqdwYWEhkoEy7WgAyCKD4znBaMiGM-6hCVOIKCYzYjIzsNMwz-G_jSNCu28QFlgMxXzHalHLYxmByIRKJ3YVBz9MqX1wMUsk",
-        "d": "lZZx5WIIg4YArlKd_bkJbm2ha1WdYnZkhQmvxSFn01_u24gNoC_4WBooa8GN-06rkxzyU6uJpS84A57HBZG02Gwz91xOpIR-eyJnrr5rG_NXyXAcoVK_rSS4pUN7DNSibEZC3VsUX1c43B71UOdYxMrvyCqM8ABFoWCHaM0PFHCB5MtH7fZg2wzWSr3wJ_2MVVor5FlLtLRKbpngB0Lst7iv1DN09f3BY_1HOVMfuaLX4cqWMA1fM0nLOTyvv75S6KFLgyoGszLcyvUcnj40n0_NHA5KbFiYQUVOJKE6Dak9EcheWrsxoQovwlBL17aTfFRese2r5yKzwyDgb_l8AQ",
-        "e": "AQAB",
-        "qi": "nJNVhFuysMh_vudCgbXIF-1cKGzOjdZgNTmdrOpVK69DfwkMrKzqtEbp9eQ08dDARus7EkPMY3KBUJf-124LVjxvlpuanupyxd5bLHrAsxI6eNMGsWQ63CELZUAAFzmCp3oybuHK0f8Fh7gYBgc4IJucn2IZfQh5GE4RgiE1TMc",
-        "dp": "gLb1lrt9UEFz6Ldz12lWHrS54GL9DsgVrzn_BCOUdm-e88_2nWXFbow6x2BnhbV7Rjk-OYZCg7QxT7RAkEr_LXJhPn8A_8Ovqb4HXHjPfTl0PnNAtHHMgb3F8TPLsRXHnuwenESt7LanzBR9bY72aD4733xH1692tyAVJbJCmqk",
-        "dq": "OmAMFkd-3I-w8fHAveNrQohA467RRI5rnogwH1KNTtND0hkJ6TxJTTTyXt6gyQIOu__4q08o1nT7rz18yJDaiUj1Ckjo1WhXM9EzZNd1HnpkQdsuJIjgMiG0wLcVnTrAzdOhNQ-1IzrdFAd_NtLR0VlyMweoTANnWPUVtADvXjk",
-        "n": "1uoK7mwwVwBLAGCvuhc07hS9yHUjmnca0o39Y61IlGG1Fk61yZJpGmnHdqwwHIkQFT0t-j3DNtLRgM0lpc6VHQJQeX3VcVYg3Ldfi9ePAjxzoqjYUcxI6U6Z9hnctowpq0i6QEfBHRF3Q5F5Ck62hxHOAK_A70hnoWSHGeKukO5LrxZQLj1WHumuD79nlNPGTMk9pw0h9sSbVA_DLdnlXmlJxq6ju6m8ypxr8hR-MBDJ265tBxd5ZDFwz6jm5H0BjHthJF8qFHFGC54zJdqGnk7M5jIa3zOPY2a5y0t73ez_tVby_LOt9Ld8DrYnh8XUMIrc-sS-8gLLxqFfCnP68Q"
-      }
-    },
-    publicKey: {
-      pem: `-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1uoK7mwwVwBLAGCvuhc0
-7hS9yHUjmnca0o39Y61IlGG1Fk61yZJpGmnHdqwwHIkQFT0t+j3DNtLRgM0lpc6V
-HQJQeX3VcVYg3Ldfi9ePAjxzoqjYUcxI6U6Z9hnctowpq0i6QEfBHRF3Q5F5Ck62
-hxHOAK/A70hnoWSHGeKukO5LrxZQLj1WHumuD79nlNPGTMk9pw0h9sSbVA/DLdnl
-XmlJxq6ju6m8ypxr8hR+MBDJ265tBxd5ZDFwz6jm5H0BjHthJF8qFHFGC54zJdqG
-nk7M5jIa3zOPY2a5y0t73ez/tVby/LOt9Ld8DrYnh8XUMIrc+sS+8gLLxqFfCnP6
-8QIDAQAB
------END PUBLIC KEY-----`,
-      jwk: {
-        "kty": "RSA",
-        "e": "AQAB",
-        "n": "1uoK7mwwVwBLAGCvuhc07hS9yHUjmnca0o39Y61IlGG1Fk61yZJpGmnHdqwwHIkQFT0t-j3DNtLRgM0lpc6VHQJQeX3VcVYg3Ldfi9ePAjxzoqjYUcxI6U6Z9hnctowpq0i6QEfBHRF3Q5F5Ck62hxHOAK_A70hnoWSHGeKukO5LrxZQLj1WHumuD79nlNPGTMk9pw0h9sSbVA_DLdnlXmlJxq6ju6m8ypxr8hR-MBDJ265tBxd5ZDFwz6jm5H0BjHthJF8qFHFGC54zJdqGnk7M5jIa3zOPY2a5y0t73ez_tVby_LOt9Ld8DrYnh8XUMIrc-sS-8gLLxqFfCnP68Q"
-      }
-    }
-  },
-  // 1024 bit
-  {
-    privateKey: {
-      pem: `-----BEGIN PRIVATE KEY-----
-MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBANtow9gwOq3XROx8
-xwj9pWwoVDQJa3XQY8VBa0q1A/LvT2mpScuAH6e1ATLObxs9TZQNkWg3Z7Uiz+jt
-tqQk2p0H79K4eDbXrxL9I/YixxRgMLQhUn2BOWyaml4DrwmXt+5CDkB6TyA3G+4x
-nA6wxniKGoLT2hJ2+EpkPMwBxk8tAgMBAAECgYEAyJnVjUAzNiO+eXVvyHGXn/aT
-XexK2rGHtp6kSO6NSLyx34oO1Uc0KfIcwWXqQX5gAoARNLaLVBoa+vzz4slrMTvT
-ChdWwz/blUxjdMv6LWLKUxh3DP54Jo5riMag5v4fVR/d5jtNu2MS1vh01QEaZ48E
-cV1xJPMtbxYhHl9NzUECQQDxKwA7tAAe/N1diQFkqlK2/HNh1aposIr7QT8aeAFT
-rEPJhGSFrhCqrxGaZEatrxyCKZhtiGzMeWXwZpNot5udAkEA6OcwpnQGtIf+LQln
-/VyPOZnPJi3gaBHY0ITpkI8eYlPDHiAKBA2Ddvw10KCf94HGQ2eh0wdi4u/qDAY5
-WRgU0QJBANhhXY8zvFwRQsh2cYKRcy9tKFUicQgHRluSufyUqZQaXqPDHrH2cEvE
-UgX1bJjPIcQDcBjuq7d2QKlGT4JIIt0CQQC2Etajqhz70TzRtILJPSzy2N1qeX7v
-nNQk32NAkcItGFJ3IJDz7iSSRkVD3e5wrdFzLHcD5MhXpTsRP2Rh1EOhAkANnkL+
-O+D1D8sNQQigrr+ibwBYnt69R6wBHpsOTdTO1frpt6crTTf0FfocfY33ks3RBbb1
-3pLN6EjuIZSu0HcB
------END PRIVATE KEY-----`,
-      jwk: {
-        "p": "8SsAO7QAHvzdXYkBZKpStvxzYdWqaLCK-0E_GngBU6xDyYRkha4Qqq8RmmRGra8cgimYbYhszHll8GaTaLebnQ",
-        "kty": "RSA",
-        "q": "6OcwpnQGtIf-LQln_VyPOZnPJi3gaBHY0ITpkI8eYlPDHiAKBA2Ddvw10KCf94HGQ2eh0wdi4u_qDAY5WRgU0Q",
-        "d": "yJnVjUAzNiO-eXVvyHGXn_aTXexK2rGHtp6kSO6NSLyx34oO1Uc0KfIcwWXqQX5gAoARNLaLVBoa-vzz4slrMTvTChdWwz_blUxjdMv6LWLKUxh3DP54Jo5riMag5v4fVR_d5jtNu2MS1vh01QEaZ48EcV1xJPMtbxYhHl9NzUE",
-        "e": "AQAB",
-        "qi": "DZ5C_jvg9Q_LDUEIoK6_om8AWJ7evUesAR6bDk3UztX66benK0039BX6HH2N95LN0QW29d6SzehI7iGUrtB3AQ",
-        "dp": "2GFdjzO8XBFCyHZxgpFzL20oVSJxCAdGW5K5_JSplBpeo8MesfZwS8RSBfVsmM8hxANwGO6rt3ZAqUZPgkgi3Q",
-        "dq": "thLWo6oc-9E80bSCyT0s8tjdanl-75zUJN9jQJHCLRhSdyCQ8-4kkkZFQ93ucK3Rcyx3A-TIV6U7ET9kYdRDoQ",
-        "n": "22jD2DA6rddE7HzHCP2lbChUNAlrddBjxUFrSrUD8u9PaalJy4Afp7UBMs5vGz1NlA2RaDdntSLP6O22pCTanQfv0rh4NtevEv0j9iLHFGAwtCFSfYE5bJqaXgOvCZe37kIOQHpPIDcb7jGcDrDGeIoagtPaEnb4SmQ8zAHGTy0"
-      }
-    },
-    publicKey: {
-      pem: `-----BEGIN PUBLIC KEY-----
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDbaMPYMDqt10TsfMcI/aVsKFQ0
-CWt10GPFQWtKtQPy709pqUnLgB+ntQEyzm8bPU2UDZFoN2e1Is/o7bakJNqdB+/S
-uHg2168S/SP2IscUYDC0IVJ9gTlsmppeA68Jl7fuQg5Aek8gNxvuMZwOsMZ4ihqC
-09oSdvhKZDzMAcZPLQIDAQAB
------END PUBLIC KEY-----`,
-      jwk: {
-        "kty": "RSA",
-        "e": "AQAB",
-        "n": "22jD2DA6rddE7HzHCP2lbChUNAlrddBjxUFrSrUD8u9PaalJy4Afp7UBMs5vGz1NlA2RaDdntSLP6O22pCTanQfv0rh4NtevEv0j9iLHFGAwtCFSfYE5bJqaXgOvCZe37kIOQHpPIDcb7jGcDrDGeIoagtPaEnb4SmQ8zAHGTy0"
-      }
-    }
   }
 ]
 
 describe('pem2jwk', () => {
-  it('works for private key (PKCS#1)', () => {
-    pkcs1KeyPairs.forEach(({ privateKey}) => {
+  it('works for private key', () => {
+    keyPairs.forEach(({ privateKey}) => {
       expect(pem2jwk(privateKey.pem)).toEqual(privateKey.jwk)
     })
   })
 
-  it('works for public key (PKCS#1)', () => {
-    pkcs1KeyPairs.forEach(({ publicKey }) => {
-      expect(pem2jwk(publicKey.pem)).toEqual(publicKey.jwk)
-    })
-  })
-
-  it('works for private key (PKCS#8)', () => {
-    pkcs8KeyPairs.forEach(({ privateKey}) => {
-      expect(pem2jwk(privateKey.pem)).toEqual(privateKey.jwk)
-    })
-  })
-
-  it('works for public key (PKCS#8)', () => {
-    pkcs8KeyPairs.forEach(({ publicKey }) => {
+  it('works for public key', () => {
+    keyPairs.forEach(({ publicKey }) => {
       expect(pem2jwk(publicKey.pem)).toEqual(publicKey.jwk)
     })
   })
 
   it('can add options to jwk object', () => {
-    const jwk = pem2jwk(pkcs1KeyPairs[0].publicKey.pem, {
+    const jwk = pem2jwk(keyPairs[0].publicKey.pem, {
       use: 'sig',
       kid: 'foo'
     })
 
-    const expected = { ...pkcs1KeyPairs[0].publicKey.jwk, use: 'sig', kid: 'foo' }
+    const expected = { ...keyPairs[0].publicKey.jwk, use: 'sig', kid: 'foo' }
 
     expect(jwk).toEqual(expected)
   })
 
   it('throws if "use" is invalid', () => {
-    expect(() => pem2jwk(pkcs1KeyPairs[0].publicKey.pem, { use: 'something-else' })).toThrow()
+    expect(() => pem2jwk(keyPairs[0].publicKey.pem, { use: 'something-else' })).toThrow()
   })
 
   it('does not throw if "use" is valid', () => {
-    expect(() => pem2jwk(pkcs1KeyPairs[0].publicKey.pem, { use: 'enc' })).not.toThrow()
+    expect(() => pem2jwk(keyPairs[0].publicKey.pem, { use: 'enc' })).not.toThrow()
   })
 
   it('handles when input has additional whitespace', () => {
